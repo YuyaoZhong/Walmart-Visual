@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Creating Real-Time Charts with Flask</title>
+    <link href="home.css?t=0414a" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+</head>
+<body>
+    <select id="chartType">
+        <option value="line">Population</option>
+        <option value="bar">Precipitation</option>
+        <option value="pie">Ethnicity</option>
+        <option value="radar">Activity</option>
+      </select>
+<div class="container">
+    <div class="row align-items-center justify-content-center">
+        <h2>{{name}}</h2>
+    </div>
+    
+    <div class="row align-items-center justify-content-center">
+        <div class="col-md-4">
+            <img src="{{imageURL}}"/>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <canvas id="canvas"></canvas>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--suppress JSUnresolvedLibraryURL -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+<!--suppress JSUnresolvedLibraryURL -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<!--suppress JSUnresolvedLibraryURL -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
+<script>
+    $(document).ready(function () {
+        const config = {
+            type: 'line',
+            data: {
+                labels: [],
+                datasets: [{
+                    label: 'Online Stock',
+                    backgroundColor: 'rgba(255, 99, 132,0.5)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [],
+                    data1:[],
+                    fill: true,
+                }
+                ],
+            },
+            options: {
+                responsive: true,
+                title: {
+                    display: true,
+                    text: ''
+                },
+                tooltips: {
+                    mode: 'index',
+                    intersect: false,
+                    callbacks: {
+                
+                        afterLabel: function(tooltipItem, data) {
+                            return 'Price: $' + data.datasets[tooltipItem.datasetIndex].data1[tooltipItem.index];
+                        },
+                
+                    },
+                },
+                hover: {
+                    mode: 'nearest',
+                    intersect: true
+                },
+                scales: {
+                    xAxes: [{
+                        display: true,
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Time'
+                        }
+                    }],
+                    yAxes: [{
+                        display: true,
+                        ticks: {
+                            stepSize: 1.0
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: 'Stock'
+                        }
+                    }]
+                }
+            }
+        };
+
+        const context = document.getElementById('canvas').getContext('2d');
+
+        var productID = document.getElementById('chartType').value
+
+        const lineChart = new Chart(context, config);
+
+        const source = new EventSource("/chart-data/{{productID|tojson}}");
+
+        source.onmessage = function (event) {
+            const data = JSON.parse(event.data);
+            if (config.data.labels.length === 20) {
+                config.data.labels.shift();
+                config.data.datasets[0].data.shift();
+                config.data.datasets[0].data1.shift();
+
+           
+            }
+            config.data.labels.push(data.time);
+            config.data.datasets[0].data.push(data.value);
+            config.data.datasets[0].data1.push(data.price);
+            lineChart.update();
+        }
+    });
+</script>
+</body>
+</html>

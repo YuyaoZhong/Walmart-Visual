@@ -1,0 +1,253 @@
+* {
+    box-sizing: inherit;
+  }
+  
+  .pn-ProductNav_Wrapper {
+    position: relative;
+    padding: 0 11px;
+    box-sizing: border-box;
+  }
+  
+  .pn-ProductNav {
+    /* Make this scrollable when needed */
+    overflow-x: auto;
+    /* We don't want vertical scrolling */
+    overflow-y: hidden;
+    /* For WebKit implementations, provide inertia scrolling */
+    /* -webkit-overflow-scrolling: touch; */
+    /* We don't want internal inline elements to wrap */
+    white-space: nowrap;
+    /* If JS present, let's hide the default scrollbar */
+    /* positioning context for advancers */
+    position: relative;
+    font-size: 0;
+  }
+  .js .pn-ProductNav {
+    /* Make an auto-hiding scroller for the 3 people using a IE */
+    -ms-overflow-style: -ms-autohiding-scrollbar;
+    /* Remove the default scrollbar for WebKit implementations */
+  }
+  .js .pn-ProductNav::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .pn-ProductNav_Contents {
+    display: inline;
+    /* float: left; */
+    -webkit-transition: -webkit-transform .2s ease-in-out;
+    transition: -webkit-transform .2s ease-in-out;
+    transition: transform .2s ease-in-out;
+    transition: transform .2s ease-in-out, -webkit-transform .2s ease-in-out;
+    position: relative;
+  }
+  
+  .pn-ProductNav_Contents-no-transition {
+    -webkit-transition: none;
+    transition: none;
+  }
+  
+  .pn-ProductNav_Link {
+    text-decoration: none;
+    color: #888;
+    font-size: 1.2rem;
+    font-family: -apple-system, sans-serif;
+    display: -webkit-inline-box;
+    display: inline-flex;
+    -webkit-box-align: center;
+            align-items: center;
+    min-height: 44px;
+    border: 1px solid transparent;
+    padding: 0 11px;
+  }
+  .pn-ProductNav_Link + .pn-ProductNav_Link {
+    border-left-color: #eee;
+  }
+  .pn-ProductNav_Link[aria-selected="true"] {
+    color: #111;
+  }
+  
+  .pn-Advancer {
+    /* Reset the button */
+    -webkit-appearance: none;
+       -moz-appearance: none;
+            appearance: none;
+    background: transparent;
+    padding: 0;
+    border: 0;
+    /* Now style it as needed */
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    /* Set the buttons invisible by default */
+    opacity: 0;
+    -webkit-transition: opacity .3s;
+    transition: opacity .3s;
+  }
+  .pn-Advancer:focus {
+    outline: 0;
+  }
+  .pn-Advancer:hover {
+    cursor: pointer;
+  }
+  
+  .pn-Advancer_Left {
+    left: 0;
+  }
+  [data-overflowing="both"] ~ .pn-Advancer_Left, [data-overflowing="left"] ~ .pn-Advancer_Left {
+    opacity: 1;
+  }
+  
+  .pn-Advancer_Right {
+    right: 0;
+  }
+  [data-overflowing="both"] ~ .pn-Advancer_Right, [data-overflowing="right"] ~ .pn-Advancer_Right {
+    opacity: 1;
+  }
+  
+  .pn-Advancer_Icon {
+    width: 20px;
+    height: 44px;
+    fill: #bbb;
+  }
+  
+  .pn-ProductNav_Indicator {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 4px;
+    width: 100px;
+    background-color: transparent;
+    -webkit-transform-origin: 0 0;
+            transform-origin: 0 0;
+    -webkit-transition: background-color .2s ease-in-out, -webkit-transform .2s ease-in-out;
+    transition: background-color .2s ease-in-out, -webkit-transform .2s ease-in-out;
+    transition: transform .2s ease-in-out, background-color .2s ease-in-out;
+    transition: transform .2s ease-in-out, background-color .2s ease-in-out, -webkit-transform .2s ease-in-out;
+  }
+
+  
+
+
+
+
+
+
+  /* Dropdown */
+  .dropdown {
+    /* float: left; */
+    overflow: hidden;
+    display: absolute;
+    -webkit-overflow-scrolling: touch;
+    /* box-sizing: border-box; */
+  }
+  
+  /* .dropdown-wrapper {
+      display: block;
+  } */
+
+  .dropbtn {
+    cursor: pointer;
+    /* font-size: 16px;  
+    border: none;
+    outline: none;
+    color: white;
+    padding: 14px 16px;
+    background-color: inherit;
+    font-family: inherit;
+    margin: 0; */
+    background-color: inherit;
+    text-decoration: none;
+    color: #888;
+    font-size: 1.2rem;
+    font-family: -apple-system, sans-serif;
+    /* display: -webkit-inline-box;
+    display: inline-flex; */
+    -webkit-box-align: center;
+            align-items: center;
+    /* min-height: 44px; */
+    /* border: 1px solid transparent; */
+    border: none;
+    padding:0;
+    margin:0;
+    /* padding: 0 11px; */
+  }
+
+  .dropbtn:focus { 
+      outline: none; 
+      color: #111;
+    }
+  
+  /* .navbar a:hover, .dropdown:hover .dropbtn, .dropbtn:focus {
+    background-color: red;
+  } */
+  
+  .dropdown-content {
+    display: none;
+    position: fixed;
+    top: 3rem;
+    /* left: -1rem; */
+    -webkit-overflow-scrolling: touch;
+
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 9;
+    height: 10rem;
+  }
+  
+  .dropdown-content a {
+    float: none;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+    z-index: 9;
+  }
+  
+  .dropdown-content a:hover {
+    background-color: #ddd;
+  }
+  
+  .show {
+    display: block;
+  }
+
+
+  /* iframe */
+  .frame {
+    height: calc(100vh - 3rem);
+    width: 100vw;
+    width: 100%;
+    /* border-top: 3px solid blue; */
+    overflow-x: hidden;
+    overflow-y: hidden;
+    overflow:hidden;
+    z-index: -1;
+  }
+
+  .scroll-wrapper {
+    top: 3em;
+    position: absolute;
+    left: 0;
+    /* display:relative; */
+    height: calc(100vh - 3rem);
+    width: 100vw;
+	-webkit-overflow-scrolling: touch;
+      overflow-y: hidden;
+    z-index:-1;
+
+	/* important:  dimensions or positioning here! */
+}
+
+body {
+    margin:4px;
+}
+
+
+@media only screen and (max-width: 600px) {
+  .pn-ProductNav_Link, .dropbtn {
+    font-size: 1.15rem;
+    padding: 0 0.2rem;
+  } 
+}
